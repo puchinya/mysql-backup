@@ -16,14 +16,14 @@ MYSQL_PASS=${MYSQL_PASS:-${MYSQL_ENV_MYSQL_PASS}}
 [ -z "${MYSQL_USER}" ] && { echo "=> MYSQL_USER cannot be empty" && exit 1; }
 [ -z "${MYSQL_PASS}" ] && { echo "=> MYSQL_PASS cannot be empty" && exit 1; }
 
-BACKUP_CMD="mysqldump --max_allowed_packet=1G -h${MYSQL_HOST} -P${MYSQL_PORT} -u${MYSQL_USER} -p${MYSQL_PASS} ${EXTRA_OPTS} ${MYSQL_DB} | gzip > /backup/"'${BACKUP_NAME}'.gz
+BACKUP_CMD="mysqldump --max_allowed_packet=1G -h${MYSQL_HOST} -P${MYSQL_PORT} -u${MYSQL_USER} -p${MYSQL_PASS} ${EXTRA_OPTS} ${MYSQL_DB} | gzip > /backup/"'${BACKUP_NAME}'
 echo "=> Creating backup script"
 rm -f /backup.sh
 cat <<EOF >> /backup.sh
 #!/bin/bash
 MAX_BACKUPS=${MAX_BACKUPS}
 
-BACKUP_NAME=\$(date +\%Y.\%m.\%d.\%H\%M\%S).sql
+BACKUP_NAME=\$(date +\%Y.\%m.\%d.\%H\%M\%S).sql.gz
 
 echo "=> Backup started: \${BACKUP_NAME}"
 if ${BACKUP_CMD} ;then
